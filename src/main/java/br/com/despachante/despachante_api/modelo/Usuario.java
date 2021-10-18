@@ -25,11 +25,12 @@ public class Usuario {
 	public Usuario() {
 	}
 
-	public Usuario(String nome, String login, String email, Nivel nivel) {
+	public Usuario(String nome, String login, String email, Nivel nivel, String senha) {
 		this.nome = nome;
 		this.login = login;
 		this.email = email;
 		this.nivel = nivel;
+		this.senha= senha;
 	}
 
 	public Long getUsuarioId() {

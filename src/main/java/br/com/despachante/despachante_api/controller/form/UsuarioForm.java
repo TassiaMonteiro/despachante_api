@@ -16,9 +16,9 @@ public class UsuarioForm {
 	private String login;
 	@NotNull @NotEmpty
 	private String email;
-	@NotNull @NotEmpty 
+	@NotNull @NotEmpty
 	private String nomeNivel;
-	@NotNull @NotEmpty 
+	@NotNull @NotEmpty
 	private String senha;
 
 	public String getNome() {
@@ -52,8 +52,6 @@ public class UsuarioForm {
 	public void setNomeNivel(String nomeNivel) {
 		this.nomeNivel = nomeNivel;
 	}
-	
-	
 
 	public String getSenha() {
 		return senha;
@@ -71,16 +69,16 @@ public class UsuarioForm {
 	public Usuario editar(Long id, UsuarioRepository usuarioRepository, NivelRepository nivelRepository) {
 		Usuario usuario = usuarioRepository.getOne(id);
 		Nivel nivel = nivelRepository.findByNome(nomeNivel);
-		if(this.nome != null) {
+		if (this.nome != null) {
 			usuario.setNome(this.nome);
 		}
-		if(this.login != null) {
+		if (this.login != null) {
 			usuario.setLogin(this.login);
 		}
-		if(this.email != null) {
+		if (this.email != null) {
 			usuario.setEmail(this.email);
 		}
-		if(nivel != null) {
+		if (nivel != null) {
 			usuario.setNivel(nivel);
 		}
 		return usuario;

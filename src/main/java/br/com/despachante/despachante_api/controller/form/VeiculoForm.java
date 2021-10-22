@@ -14,7 +14,7 @@ public class VeiculoForm {
 	private String placa;
 	@NotNull @NotEmpty
 	private String marca;
-	@NotNull @NotEmpty
+	@NotNull
 	private Integer ano;
 	@NotNull @NotEmpty
 	private String chassi;
@@ -29,7 +29,6 @@ public class VeiculoForm {
 	@NotNull @NotEmpty
 	private String renavam;
 	private String observacoes;
-	@NotNull @NotEmpty
 	private Long clienteId;
 
 	public Long getClienteId() {

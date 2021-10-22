@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.despachante.despachante_api.controller.dto.VeiculoDto;
 import br.com.despachante.despachante_api.controller.form.VeiculoForm;
 import br.com.despachante.despachante_api.modelo.Veiculo;
 import br.com.despachante.despachante_api.repository.ClienteRepository;
@@ -35,13 +36,13 @@ public class VeiculoController {
 	private ClienteRepository clienteRepository;
 	
 	@GetMapping
-	public List<Veiculo> listarVeiculo(String placa) {
+	public List<VeiculoDto> listarVeiculo(String placa) {
 		if (placa == null) {
 			List<Veiculo> veiculos = veiculoRepository.findAll();
-			return veiculos;
+			return VeiculoDto.converter(veiculos);
 		} else {
 			List<Veiculo> veiculos = veiculoRepository.findByPlaca(placa);
-			return veiculos;
+			return VeiculoDto.converter(veiculos);
 		}
 	}
 	

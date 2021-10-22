@@ -16,15 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.despachante.despachante_api.controller.dto.UsuarioDto;
 import br.com.despachante.despachante_api.controller.form.ClienteForm;
-import br.com.despachante.despachante_api.controller.form.UsuarioForm;
 import br.com.despachante.despachante_api.modelo.Cliente;
-import br.com.despachante.despachante_api.modelo.Usuario;
 import br.com.despachante.despachante_api.repository.ClienteRepository;
 
 @RestController

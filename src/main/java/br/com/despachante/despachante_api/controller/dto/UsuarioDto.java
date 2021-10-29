@@ -1,11 +1,11 @@
 package br.com.despachante.despachante_api.controller.dto;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import br.com.despachante.despachante_api.modelo.Nivel;
 import br.com.despachante.despachante_api.modelo.Usuario;
+import br.com.despachante.despachante_api.utils.DateUtils;
 
 public class UsuarioDto {
 
@@ -13,7 +13,7 @@ public class UsuarioDto {
 	private String nome;
 	private String login;
 	private String email;
-	private LocalDateTime dataDeCadastro;
+	private String dataDeCadastro;
 	private Nivel nivel;
 	
 	public UsuarioDto(Usuario usuario) {
@@ -21,7 +21,7 @@ public class UsuarioDto {
 		this.nome=usuario.getNome();
 		this.login=usuario.getLogin();
 		this.email=usuario.getEmail();
-		this.dataDeCadastro=usuario.getDataDeCadastro();
+		this.dataDeCadastro= DateUtils.converterDataPadraoBR(usuario.getDataDeCadastro());
 		this.nivel=usuario.getNivel();
 	}
 
@@ -41,7 +41,7 @@ public class UsuarioDto {
 		return email;
 	}
 
-	public LocalDateTime getDataDeCadastro() {
+	public String getDataDeCadastro() {
 		return dataDeCadastro;
 	}
 	

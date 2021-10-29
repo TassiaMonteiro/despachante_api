@@ -20,7 +20,6 @@ public class Protocolo {
 	private LocalDate dataAquisicao;
 	private LocalDate dataRegistro;
 	private LocalDate dataEntrega;
-	private String situacao;
 	private String nomeVendedor;
 	private String documentoVendedor;
 	private String observacoes;
@@ -29,23 +28,25 @@ public class Protocolo {
 	@ManyToOne
 	private Usuario usuario;
 	
+	private Boolean isConcluido;
+	
 	public Protocolo() {
 	}
 	
 	public Protocolo(String servicos, BigDecimal valorRecebido, LocalDate dataAquisicao, LocalDate dataRegistro,
-			LocalDate dataEntrega, String situacao, String nomeVendedor, String documentoVendedor, String observacoes,
+			LocalDate dataEntrega, String nomeVendedor, String documentoVendedor, String observacoes,
 			Veiculo veiculo, Usuario usuario) {
 		this.servicos = servicos;
 		this.valorRecebido = valorRecebido;
 		this.dataAquisicao = dataAquisicao;
 		this.dataRegistro = dataRegistro;
 		this.dataEntrega = dataEntrega;
-		this.situacao = situacao;
 		this.nomeVendedor = nomeVendedor;
 		this.documentoVendedor = documentoVendedor;
 		this.observacoes = observacoes;
 		this.veiculo = veiculo;
 		this.usuario = usuario;
+		this.isConcluido = false;
 	}
 
 	public Long getProtocoloId() {
@@ -84,12 +85,7 @@ public class Protocolo {
 	public void setDataEntrega(LocalDate dataEntrega) {
 		this.dataEntrega = dataEntrega;
 	}
-	public String getSituacao() {
-		return situacao;
-	}
-	public void setSituacao(String situacao) {
-		this.situacao = situacao;
-	}
+	
 	public String getNomeVendedor() {
 		return nomeVendedor;
 	}
@@ -119,6 +115,14 @@ public class Protocolo {
 	}
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public Boolean getIsConcluido() {
+		return isConcluido == null ? false : isConcluido;
+	}
+
+	public void setIsConcluido(Boolean isConcluido) {
+		this.isConcluido = isConcluido;
 	}
 	
 	

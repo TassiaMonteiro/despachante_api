@@ -1,15 +1,15 @@
 package br.com.despachante.despachante_api.controller.dto;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import br.com.despachante.despachante_api.modelo.Veiculo;
+import br.com.despachante.despachante_api.utils.DateUtils;
 
 public class VeiculoDto {
 
 	private Long veiculoId;
-	private LocalDateTime dataDeCadastro = LocalDateTime.now();
+	private String dataDeCadastro;
 	private String placa;
 	private String marca;
 	private int ano;
@@ -26,7 +26,7 @@ public class VeiculoDto {
 
 	public VeiculoDto(Veiculo veiculo) {
 		this.veiculoId = veiculo.getVeiculoId();
-		this.dataDeCadastro = veiculo.getDataDeCadastro();
+		this.dataDeCadastro = DateUtils.converterDataPadraoBR(veiculo.getDataDeCadastro());
 		this.placa = veiculo.getPlaca();
 		this.marca = veiculo.getMarca();
 		this.ano = veiculo.getAno();
@@ -46,7 +46,7 @@ public class VeiculoDto {
 		return veiculoId;
 	}
 
-	public LocalDateTime getDataDeCadastro() {
+	public String getDataDeCadastro() {
 		return dataDeCadastro;
 	}
 

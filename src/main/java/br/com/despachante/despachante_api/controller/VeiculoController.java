@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.despachante.despachante_api.controller.dto.UsuarioDto;
 import br.com.despachante.despachante_api.controller.dto.VeiculoDto;
 import br.com.despachante.despachante_api.controller.form.VeiculoForm;
 import br.com.despachante.despachante_api.modelo.Veiculo;
@@ -36,30 +37,39 @@ public class VeiculoController {
 	private ClienteRepository clienteRepository;
 	
 	@GetMapping
-	public List<VeiculoDto> listarVeiculo(String placa) {
-		if (placa == null) {
-			List<Veiculo> veiculos = veiculoRepository.findAll();
-			return VeiculoDto.converter(veiculos);
-		} else {
-			List<Veiculo> veiculos = veiculoRepository.findByPlaca(placa);
-			return VeiculoDto.converter(veiculos);
+	public List<VeiculoDto> listarVeiculo(String placa, String nomeCliente) {
+		List<Veiculo> veiculos = null;
+		
+		if (placa == null && nomeCliente == null) {
+			veiculos = veiculoRepository.findAll();
+		
+		} else if(nomeCliente != null && placa != null){
+			veiculos = veiculoRepository.findByPlacaClienteNome(placa, nomeCliente);
+		
+		} else if(nomeCliente != null && placa == null){
+			veiculos = veiculoRepository.findByClienteNome(nomeCliente);
+		
+		} else if(nomeCliente == null && placa != null) {
+			veiculos = veiculoRepository.findByPlaca(placa);
 		}
+		
+		return VeiculoDto.converter(veiculos);
 	}
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Veiculo> cadastrarVeiculo(@RequestBody @Valid VeiculoForm veiculoForm, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<VeiculoDto> cadastrarVeiculo(@RequestBody @Valid VeiculoForm veiculoForm, UriComponentsBuilder uriBuilder) {
 		Veiculo veiculo = veiculoForm.converter(clienteRepository);
 		veiculoRepository.save(veiculo);
 		URI uri = uriBuilder.path("/veiculo/{id}").buildAndExpand(veiculo.getVeiculoId()).toUri();
-		return ResponseEntity.created(uri).body(veiculo);
+		return ResponseEntity.created(uri).body(new VeiculoDto(veiculo));
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Veiculo> detalharVeiculo(@PathVariable Long id) {
+	public ResponseEntity<VeiculoDto> detalharVeiculo(@PathVariable Long id) {
 		Optional<Veiculo> veiculo = veiculoRepository.findById(id);
 		if (veiculo.isPresent()) {
-			return ResponseEntity.ok(veiculo.get());
+			return ResponseEntity.ok((new VeiculoDto(veiculo.get())));
 		}
 		
 		return ResponseEntity.notFound().build();

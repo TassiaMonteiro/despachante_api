@@ -1,5 +1,6 @@
 package br.com.despachante.despachante_api.modelo;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
@@ -14,7 +15,7 @@ public class Veiculo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long veiculoId;
-	private LocalDateTime dataDeCadastro = LocalDateTime.now();
+	private LocalDate dataDeCadastro = LocalDate.now();
 	private String placa;
 	private String marca;
 	private int ano;
@@ -54,11 +55,11 @@ public class Veiculo {
 		this.veiculoId = veiculoId;
 	}
 
-	public LocalDateTime getDataDeCadastro() {
+	public LocalDate getDataDeCadastro() {
 		return dataDeCadastro;
 	}
 
-	public void setDataDeCadastro(LocalDateTime dataDeCadastro) {
+	public void setDataDeCadastro(LocalDate dataDeCadastro) {
 		this.dataDeCadastro = dataDeCadastro;
 	}
 

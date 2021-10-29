@@ -1,6 +1,7 @@
 package br.com.despachante.despachante_api.controller;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,24 +41,45 @@ public class ProtocoloController {
 	private UsuarioRepository usuarioRepository;
 
 	@GetMapping
-	public List<ProtocoloDto> listarProtocolo(Long veiculoId) {
-		if (veiculoId == null) {
-			List<Protocolo> protocolos = protocoloRepository.findAll();
-			return ProtocoloDto.converter(protocolos);
-		} else {
-			List<Protocolo> protocolos = protocoloRepository.findByVeiculoVeiculoId(veiculoId);
-			return ProtocoloDto.converter(protocolos);
+	public List<ProtocoloDto> listarProtocolo(String placa, String nomeCliente, Boolean isConcluido) {
+		List<Protocolo> protocolos = null;
+		
+		if (placa == null && nomeCliente == null && isConcluido == null) {
+			 protocolos = protocoloRepository.findAll();
+		
+		} else if(placa != null && nomeCliente == null && isConcluido == null) {
+			protocolos = protocoloRepository.findByVeiculoPlaca(placa);
+		
+		} else if(placa == null && nomeCliente != null && isConcluido == null) {
+			protocolos = protocoloRepository.findByVeiculoClienteNome(nomeCliente);
+		
+		} else if(placa == null && nomeCliente == null && isConcluido != null) {
+			protocolos = protocoloRepository.findByIsConcluido(isConcluido);
+		
+		} else if(placa != null && nomeCliente != null && isConcluido == null) {
+			protocolos = protocoloRepository.findByPlacaNomeCliente(placa, nomeCliente);
+		
+		} else if(placa != null && nomeCliente == null && isConcluido != null) {
+			protocolos = protocoloRepository.findByPlacaIsConcluido(placa, isConcluido);
+		
+		} else if(placa == null && nomeCliente != null && isConcluido != null) {
+			protocolos = protocoloRepository.findByClienteIsConcluido(nomeCliente, isConcluido);
+		
+		} else if(placa != null && nomeCliente != null && isConcluido != null) {
+			protocolos = protocoloRepository.findByPlacaClienteIsConcluido(placa, nomeCliente, isConcluido);
 		}
+				
+		return ProtocoloDto.converter(protocolos);
 	}
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Protocolo> cadastrarProtocolo(@RequestBody @Valid ProtocoloForm protocoloForm,
+	public ResponseEntity<ProtocoloDto> cadastrarProtocolo(@RequestBody @Valid ProtocoloForm protocoloForm,
 			UriComponentsBuilder uriBuilder) {
 		Protocolo protocolo = protocoloForm.converter(veiculoRepository, usuarioRepository);
 		protocoloRepository.save(protocolo);
 		URI uri = uriBuilder.path("/protocolo/{id}").buildAndExpand(protocolo.getProtocoloId()).toUri();
-		return ResponseEntity.created(uri).body(protocolo);
+		return ResponseEntity.created(uri).body(new ProtocoloDto(protocolo));
 	}
 
 	@GetMapping("/{id}")

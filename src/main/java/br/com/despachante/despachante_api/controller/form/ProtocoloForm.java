@@ -33,7 +33,6 @@ public class ProtocoloForm {
 	@DateTimeFormat(pattern = "dd/MM/yyyy", iso = ISO.DATE_TIME)
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
 	private LocalDate dataEntrega;
-	private String situacao;
 	@NotNull @NotEmpty
 	private String nomeVendedor;
 	@NotNull @NotEmpty
@@ -43,6 +42,8 @@ public class ProtocoloForm {
 	private Long veiculoId;
 	@NotNull
 	private Long usuarioId;
+	
+	private Boolean isConcluido;
 
 	public String getServicos() {
 		return servicos;
@@ -84,14 +85,6 @@ public class ProtocoloForm {
 		this.dataEntrega = dataEntrega;
 	}
 
-	public String getSituacao() {
-		return situacao;
-	}
-
-	public void setSituacao(String situacao) {
-		this.situacao = situacao;
-	}
-
 	public String getNomeVendedor() {
 		return nomeVendedor;
 	}
@@ -131,11 +124,19 @@ public class ProtocoloForm {
 	public void setUsuarioId(Long usuarioId) {
 		this.usuarioId = usuarioId;
 	}
+	
+	public Boolean getIsConcluido() {
+		return isConcluido;
+	}
+
+	public void setIsConcluido(Boolean isConcluido) {
+		this.isConcluido = isConcluido;
+	}
 
 	public Protocolo converter(VeiculoRepository veiculoRepository, UsuarioRepository usuarioRepository) {
 		Veiculo veiculo = veiculoRepository.findByVeiculoId(veiculoId);
 		Usuario usuario = usuarioRepository.findByUsuarioId(usuarioId);
-		return new Protocolo(servicos, valorRecebido, dataAquisicao, dataRegistro, dataEntrega, situacao, nomeVendedor, documentoVendedor, observacoes, veiculo, usuario);
+		return new Protocolo(servicos, valorRecebido, dataAquisicao, dataRegistro, dataEntrega, nomeVendedor, documentoVendedor, observacoes, veiculo, usuario);
 	}
 
 	public Protocolo editar(Long id, ProtocoloRepository protocoloRepository) {
@@ -158,9 +159,6 @@ public class ProtocoloForm {
 		if (this.valorRecebido != null) {
 			protocolo.setValorRecebido(this.valorRecebido);
 		}
-		if (this.situacao != null) {
-			protocolo.setSituacao(this.situacao);
-		}
 		if (nomeVendedor != null) {
 			protocolo.setNomeVendedor(nomeVendedor);
 		}
@@ -169,6 +167,10 @@ public class ProtocoloForm {
 		}
 		if (this.observacoes != null) {
 			protocolo.setObservacoes(this.observacoes);
+		}
+		
+		if(this.isConcluido != null) {
+			protocolo.setIsConcluido(this.isConcluido);
 		}
 		
 		return protocolo;

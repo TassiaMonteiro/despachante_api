@@ -1,21 +1,20 @@
 package br.com.despachante.despachante_api.controller.dto;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import br.com.despachante.despachante_api.modelo.Protocolo;
+import br.com.despachante.despachante_api.utils.DateUtils;
 
 public class ProtocoloDto {
 
 	private Long protocoloId;
 	private String servicos;
 	private BigDecimal valorRecebido;
-	private LocalDate dataAquisicao;
-	private LocalDate dataRegistro;
-	private LocalDate dataEntrega;
-	private String situacao;
+	private String dataAquisicao;
+	private String dataRegistro;
+	private String dataEntrega;
 	private String nomeVendedor;
 	private String documentoVendedor;
 	private String observacoes;
@@ -25,15 +24,15 @@ public class ProtocoloDto {
 	private String nomeCliente;
 	private Long usuarioId;
 	private String nomeUsuario;
+	private Boolean isConcluido;
 
 	public ProtocoloDto(Protocolo protocolo) {
 		this.protocoloId = protocolo.getProtocoloId();
 		this.servicos = protocolo.getServicos();
 		this.valorRecebido = protocolo.getValorRecebido();
-		this.dataAquisicao = protocolo.getDataAquisicao();
-		this.dataRegistro = protocolo.getDataRegistro();
-		this.dataEntrega = protocolo.getDataEntrega();
-		this.situacao = protocolo.getSituacao();
+		this.dataAquisicao = DateUtils.converterDataPadraoBR(protocolo.getDataAquisicao());
+		this.dataRegistro = DateUtils.converterDataPadraoBR(protocolo.getDataRegistro());
+		this.dataEntrega = DateUtils.converterDataPadraoBR(protocolo.getDataEntrega());
 		this.nomeVendedor = protocolo.getNomeVendedor();
 		this.documentoVendedor = protocolo.getDocumentoVendedor();
 		this.observacoes = protocolo.getObservacoes();
@@ -43,6 +42,7 @@ public class ProtocoloDto {
 		this.nomeCliente = protocolo.getVeiculo().getCliente().getNome();
 		this.usuarioId = protocolo.getUsuario().getUsuarioId();
 		this.nomeUsuario = protocolo.getUsuario().getNome();
+		this.isConcluido = protocolo.getIsConcluido();
 	}
 
 	public Long getProtocoloId() {
@@ -57,20 +57,16 @@ public class ProtocoloDto {
 		return valorRecebido;
 	}
 
-	public LocalDate getDataAquisicao() {
+	public String getDataAquisicao() {
 		return dataAquisicao;
 	}
 
-	public LocalDate getDataRegistro() {
+	public String getDataRegistro() {
 		return dataRegistro;
 	}
 
-	public LocalDate getDataEntrega() {
+	public String getDataEntrega() {
 		return dataEntrega;
-	}
-
-	public String getSituacao() {
-		return situacao;
 	}
 
 	public String getNomeVendedor() {
@@ -113,4 +109,7 @@ public class ProtocoloDto {
 		return protocolos.stream().map(ProtocoloDto::new).collect(Collectors.toList());
 	}
 
+	public Boolean getIsConcluido() {
+		return isConcluido;
+	}
 }

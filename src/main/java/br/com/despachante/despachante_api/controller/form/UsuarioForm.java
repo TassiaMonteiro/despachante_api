@@ -3,6 +3,8 @@ package br.com.despachante.despachante_api.controller.form;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import br.com.despachante.despachante_api.modelo.Nivel;
 import br.com.despachante.despachante_api.modelo.Usuario;
 import br.com.despachante.despachante_api.repository.NivelRepository;
@@ -63,6 +65,7 @@ public class UsuarioForm {
 
 	public Usuario converter(NivelRepository nivelRepository) {
 		Nivel nivel = nivelRepository.findByNome(nomeNivel);
+		this.senha = new BCryptPasswordEncoder().encode(senha);
 		return new Usuario(nome, login, email, nivel, senha);
 	}
 

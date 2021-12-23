@@ -1,10 +1,12 @@
 package br.com.despachante.despachante_api.controller;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -72,7 +74,7 @@ public class ProtocoloController {
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<ProtocoloDto> cadastrarProtocolo(@RequestBody ProtocoloForm protocoloForm,
+	public ResponseEntity<ProtocoloDto> cadastrarProtocolo(@RequestBody @Valid ProtocoloForm protocoloForm,
 			UriComponentsBuilder uriBuilder) {
 		Protocolo protocolo = protocoloForm.converter(veiculoRepository, usuarioRepository);
 		protocoloRepository.save(protocolo);
